@@ -1,0 +1,56 @@
+Since Chinese sentences are not seperated by spaces,  the 
+setences should be tokenized before POS tagging. However, 
+most Chinese POS tagger does not provide word segmentation 
+functionality. It is hard to use these tagger directly. 
+This python library tries to solve this problem by wrapping 
+segmentation and tagging tools together. 
+
+ - Chinese word segmentation by Ling Pipe: 
+    http://alias-i.com/lingpipe/
+ - Chinese part-of-speech tagger trained by nltk-trainer: 
+    https://github.com/japerk/nltk-trainer
+
+Both segmentation and pos tagging tools are train using the 
+dataset released by Academia Sinica in Taiwan.
+
+Before tagging, the sentences are tokenized by a segmenter.
+The tagging results are stored in a list. The elements of 
+the list are tuples of word tokens and their associated 
+POS tag. The full list of Chinese POS tags are in
+http://db1x.sinica.edu.tw/kiwi/mkiwi/modern_e_wordtype.html
+
+==========
+Dependency
+==========
+- NLTK: http://www.nltk.org/
+
+============
+Installation
+============
+python setup.py install
+
+=============
+Sample script
+=============
+
+# -*- coding: utf-8 -*
+from postagger_zh.postagger import POSTagger
+
+tagger = POSTagger()
+text = u'英國明年也開放台灣青年前往打工度假，且可打工兩年，\
+        不少在學的年輕人認為，因為英國物價及生活費太高，\
+        擔心打工甚至無法維持生活費，興趣缺缺；\
+        但幾位三十歲以下的上班族則表示心動，有機會不排除前往。'
+for token, tag in tagger.tag(text):
+    print token, tag
+
+=============
+Sample output
+=============
+英國 Nca
+明年 Ndaba
+也 Dbb
+開放 VH11
+台灣 Nca
+...
+
